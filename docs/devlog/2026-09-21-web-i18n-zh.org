@@ -1,0 +1,41 @@
+* [2026-09-21] Dev Log: Web UI Simplified Chinese :WEB:I18N:
+
+** Context
+The web UI was English-only: chrome lived as string literals in
+=internal/web/templates.go= and friends. The user asked to finish
+multilingual support, specifically Chinese.
+
+** Why
+A Chinese-speaking operator should be able to browse projects,
+sessions, search, and the session dock without translating the
+chrome in their head. Session *content* stays as stored.
+
+** What
+- =FEAT= =internal/i18n= catalog: English is the source locale;
+  =zh-CN= covers the same keys. Tests fail on missing or empty
+  translations.
+- =FEAT= Language detection: =?lang==, =ccx-lang= cookie, config
+  =locale=, then =Accept-Language=. Default remains English.
+- =FEAT= Language switcher in the top nav (English / 简体中文).
+- =CHANGE= HTML =lang= and =window.CCX_I18N= so client JS uses the
+  same catalog.
+
+Traditional Chinese is not a catalog. CLI help is still English.
+
+** How
+Request-scoped =loc= translator. Top-level renderers are methods on
+=loc=; package-level wrappers keep English for existing tests that
+call them directly.
+
+** Decisions
+| Decision | Alternatives | Rationale | DRI | Timestamp |
+| Catalog maps in Go | gettext / x/text/message | Zero new deps; single binary | — | 2026-09-21 |
+| zh-CN only | Also zh-TW | No existing Traditional surface | — | 2026-09-21 |
+| Web UI first | Also CLI cobra help | CLI is not on the same catalog | — | 2026-09-21 |
+
+** Notes
+- =html.EscapeString= turns apostrophes into =&#39;=. Catalog text
+  in element bodies uses a lighter escape so "Can't" stays readable.
+- =zh-TW= / =zh-Hant= do not fall through to Simplified Chinese.
+- Pages emit =translate="no"= and =google= =notranslate= so browser
+  auto-translate does not fight the in-app locale.
