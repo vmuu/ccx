@@ -3398,10 +3398,11 @@ func pageHeader(title, theme string) string {
 
 func (l loc) pageHeader(title, theme string) string {
 	return fmt.Sprintf(`<!DOCTYPE html>
-<html lang="%s" data-theme="%s">
+<html lang="%s" data-theme="%s" translate="no">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google" content="notranslate">
 <script>(function(){var t=localStorage.getItem('ccx-theme');if(t)document.documentElement.setAttribute('data-theme',t)})();</script>
 %s
 <title>%s</title>

@@ -37,3 +37,5 @@ call them directly.
 - =html.EscapeString= turns apostrophes into =&#39;=. Catalog text
   in element bodies uses a lighter escape so "Can't" stays readable.
 - =zh-TW= / =zh-Hant= do not fall through to Simplified Chinese.
+- Pages emit =translate="no"= and =google= =notranslate= so browser
+  auto-translate does not fight the in-app locale.

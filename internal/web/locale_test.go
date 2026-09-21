@@ -23,6 +23,7 @@ func TestIndexPage_ChineseQuery(t *testing.T) {
 	body := w.Body.String()
 	for _, want := range []string{
 		`lang="zh-CN"`,
+		`translate="no"`,
 		"项目",
 		"会话",
 		"设置",
